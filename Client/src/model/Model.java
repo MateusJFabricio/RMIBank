@@ -45,7 +45,8 @@ public class Model {
 
 	public void depositar(String conta, double valor) {
 		try {
-			oper.depositar(conta, valor);
+			if (valor > 0)
+				oper.depositar(conta, valor);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -53,7 +54,9 @@ public class Model {
 
 	public void sacar(String conta, double valor) {
 		try {
-			oper.sacar(conta, valor);
+			if (valor > 0)
+				if (oper.buscarSaldo(conta) > valor)
+					oper.sacar(conta, valor);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -61,7 +64,14 @@ public class Model {
 
 	public boolean transferencia(String conta, String contaDestino, double valor) {
 		try {
-			return oper.transferir(conta, contaDestino, valor, "Sou bom");
+			if ((valor > 0) && (!conta.equals(contaDestino)))
+			{
+				if (valor >= oper.buscarSaldo(conta))
+					return oper.transferir(conta, contaDestino, valor, "Sou bom");
+				else
+					return false;
+			}else
+				return false;
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			return false;
