@@ -66,7 +66,7 @@ public class Model {
 		try {
 			if ((valor > 0) && (!conta.equals(contaDestino)))
 			{
-				if (valor >= oper.buscarSaldo(conta))
+				if (oper.buscarSaldo(conta) >= valor)
 					return oper.transferir(conta, contaDestino, valor, "Sou bom");
 				else
 					return false;
